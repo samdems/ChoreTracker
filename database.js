@@ -1,15 +1,13 @@
-// database.js
-
-const { Sequelize, DataTypes } = require('sequelize');
+import { Sequelize, DataTypes } from 'sequelize';
 
 // Connect to SQLite database
-const sequelize = new Sequelize({
+export const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './database.sqlite', // Path to the SQLite file
 });
 
 // Define User model
-const User = sequelize.define('User', {
+export const User = sequelize.define('User', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -21,7 +19,7 @@ const User = sequelize.define('User', {
 });
 
 // Define Chore model
-const Chore = sequelize.define('Chore', {
+export const Chore = sequelize.define('Chore', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,4 +30,3 @@ const Chore = sequelize.define('Chore', {
   },
 });
 
-module.exports = { sequelize, User, Chore };

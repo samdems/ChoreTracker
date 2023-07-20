@@ -11,7 +11,7 @@ $('#addChoreForm').submit(function (event) {
         url: '/chores',
         method: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ name: choreName, cost: choreCost }),
+        data: JSON.stringify({ choreName, choreCost }),
         success: function (data) {
             alert('Chore added successfully!');
         },

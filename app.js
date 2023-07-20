@@ -1,87 +1,15 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const { Sequelize, DataTypes } = require('sequelize');
-
-// Connect to SQLite database
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.sqlite', // Path to the SQLite file
-});
-
-// Define User model
-const User = sequelize.define('User', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  totalDebt: {
-    type: DataTypes.FLOAT,
-    defaultValue: 0.0,
-  },
-});
-
-// Define Chore model
-const Chore = sequelize.define('Chore', {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  cost: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-});
-
-// Create tables for User and Chore models (if they don't exist)
-sequelize.sync();
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import {User,Chore} from './database.js'
+import userRoute from './controler/Users.js'
+import choreRoute from './controler/chores.js'
 
 const app = express();
 app.use(bodyParser.json());
 
-// Set EJS as the template engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Routes
-app.post('/users', async (req, res) => {
-  const { name, totalDebt } = req.body;
-  try {
-    const newUser = await User.create({ name, totalDebt });
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ message: 'Error adding user.' });
-  }
-});
-
-app.post('/chores', async (req, res) => {
-  const { name, cost } = req.body;
-  try {
-    const newChore = await Chore.create({ name, cost });
-    res.status(201).json(newChore);
-  } catch (error) {
-    res.status(500).json({ message: 'Error adding chore.' });
-  }
-});
-
-app.get('/users', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching users.' });
-  }
-});
-
-app.get('/chores', async (req, res) => {
-  try {
-    const chores = await Chore.findAll();
-    res.status(200).json(chores);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching chores.' });
-  }
-});
-
+app.use('/users',userRoute)
+app.use('/chores',choreRoute)
 app.post('/add-debt/:userId/:choreId', async (req, res) => {
   const userId = parseInt(req.params.userId);
   const choreId = parseInt(req.params.choreId);
