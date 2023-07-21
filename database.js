@@ -1,9 +1,15 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
-// Connect to SQLite database
+const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } = process.env;
+
+// Connect to PostgreSQL database
 export const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.sqlite', // Path to the SQLite file
+  dialect: 'postgres',
+  host: POSTGRES_HOST,
+  port: POSTGRES_PORT,
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DB,
 });
 
 // Define User model
