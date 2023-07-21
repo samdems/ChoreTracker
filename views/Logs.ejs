@@ -1,0 +1,15 @@
+<%- include('header') -%>
+
+<div class="container mt-4">
+  <h2>All Logs</h2>
+  <ul class="list-group">
+    <% Logs.forEach(Log => { %>
+      <li class="list-group-item">
+        <b><%= Log.type %></b>  <%= Log.name %> - amount: <%= Log.amount %> <small><%= Log.notes %></small>
+      </li>
+    <% }) %>
+  </ul>
+
+</div>
+
+<%- include('footer') -%>

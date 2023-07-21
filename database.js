@@ -15,9 +15,26 @@ export const User = sequelize.define('User', {
   totalDebt: {
     type: DataTypes.FLOAT,
     defaultValue: 0.0,
-  },
+  } 
 });
-
+export const Log = sequelize.define('log', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  amount: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0.0,
+  },
+  type:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  notes:{
+    type: DataTypes.STRING,
+    defaultValue: "",
+  }
+});
 // Define Chore model
 export const Chore = sequelize.define('Chore', {
   name: {

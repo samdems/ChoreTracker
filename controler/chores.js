@@ -5,9 +5,9 @@ const app = Router();
 app.get("/", async (req, res) => {
   try {
     const chores = await Chore.findAll();
-    res.render("chores", { chores });
+    res.render("chores", { chores,error:null,info:null });
   } catch (error) {
-    res.render("chores", { chores:[], error });
+    res.render("chores", { chores:[], error,info:null});
   }
 });
 
@@ -16,14 +16,15 @@ app.post('/', async (req, res) => {
     try {
       const newchore = await Chore.create({ name, cost });
       const chores = await Chore.findAll();
-      res.render("chores", { chores });
+      const info = `new chore made: ${newchore.name}`
+      res.render("chores", { chores,error:null,info });
     } catch (error) {
       console.error(error);
-      res.render("chores", { chores:[], error });
+      res.render("chores", { chores:[], error,info:null });
     }
 });
 
-app.delete('/:id', async (req, res) => {
+app.post('/:id', async (req, res) => {
   const choreId = req.params.id;
 
   try {
@@ -33,9 +34,12 @@ app.delete('/:id', async (req, res) => {
     }
 
     await chore.destroy();
-    res.status(200).json({ message: 'chore deleted successfully.' });
+    const chores = await Chore.findAll();
+    const info = `chore removed`
+    res.render("chores", { chores,error:null,info });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting chore.' });
+    const chores = await Chore.findAll();
+    res.render("chores", { chores,error:error,info:null });
   }
 });
 

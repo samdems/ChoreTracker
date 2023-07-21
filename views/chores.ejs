@@ -6,6 +6,9 @@
     <%chores.forEach(chore => { %>
       <li class="list-group-item">
         <%= chore.name %> - Cost: <%= chore.cost %>
+        <form action="/chores/<%= chore.id %>?_method=DELETE" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-danger btn-sm ml-2">Delete</button>
+        </form>
       </li>
     <% }) %>
   </ul>
