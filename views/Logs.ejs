@@ -1,15 +1,63 @@
 <%- include('header') -%>
-
 <div class="container mt-4">
   <h2>All Logs</h2>
-  <ul class="list-group">
-    <% Logs.forEach(Log => { %>
-      <li class="list-group-item">
-        <b><%= Log.type %></b>  <%= Log.name %> - amount: <%= Log.amount %> <small><%= Log.notes %></small>
-      </li>
-    <% }) %>
-  </ul>
+  
+  <!-- User Dropdown -->
+  <div class="form-group">
+    <label for="userSelect">Select User:</label>
+    <select class="form-control" id="userSelect">
+      <option value="all">All Users</option>
+      <% users.forEach(users => { %>
+        <option value="<%= users.name %>"><%= users.name %></option>
+      <% }) %>
+    </select>
+  </div>
 
+  <!-- Log Table -->
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Notes</th>
+        <th>totalAmount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Logs.forEach(Log => { %>
+        <tr data-user="<%= Log.name %>">
+          <td><b><%= Log.type %></b></td>
+          <td><%= Log.name %></td>
+          <td><%= Log.amount %></td>
+          <td><small><%= Log.notes %></small></td>
+          <td><small><%= Log.TotalAmount %></small></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 </div>
+
+<script>
+  // JavaScript to handle user selection and filtering
+  const userSelect = document.getElementById('userSelect');
+  const logRows = document.querySelectorAll('tbody tr');
+
+  userSelect.addEventListener('change', () => {
+    const selectedUser = userSelect.value;
+
+    // Show/hide rows based on user selection
+    logRows.forEach(row => {
+      const user = row.getAttribute('data-user');
+      if (selectedUser === 'all' || selectedUser === user) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+
 
 <%- include('footer') -%>

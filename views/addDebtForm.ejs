@@ -1,11 +1,35 @@
 <%- include('header') -%>
 
 <div class="container mt-4">
-  <h1>Add Debt</h1>
-  <form action="/add-debt" method="POST">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Add Debt</h1>
+      <form action="/add-debt" method="POST">
+        <div class="mb-3">
+          <label for="userId" class="form-label">User:</label>
+          <select id="userId" name="userId" class="form-select" required>
+            <% users.forEach(user => { %>
+              <option value="<%= user.id %>"><%= user.name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="choreId" class="form-label">Chore:</label>
+          <select id="choreId" name="choreId" class="form-select" required>
+            <% chores.forEach(chore => { %>
+              <option value="<%= chore.id %>"><%= chore.name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Debt</button>
+      </form>
+       <h1>Make Payment</h1>
+      <form action="/make-payment" method="post">
     <div class="mb-3">
-      <label for="userId" class="form-label">User:</label>
-      <select id="userId" name="userId" class="form-select" required>
+      <label for="user" class="form-label">Select User:</label>
+      <select id="user" name="userId" class="form-select" required>
         <% users.forEach(user => { %>
           <option value="<%= user.id %>"><%= user.name %></option>
         <% }); %>
@@ -13,16 +37,50 @@
     </div>
 
     <div class="mb-3">
-      <label for="choreId" class="form-label">Chore:</label>
-      <select id="choreId" name="choreId" class="form-select" required>
-        <% chores.forEach(chore => { %>
-          <option value="<%= chore.id %>"><%= chore.name %></option>
-        <% }); %>
-      </select>
+      <label for="amount" class="form-label">Payment Amount:</label>
+      <input type="number" id="amount" name="amount" class="form-control" required min="0" step="0.01">
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Debt</button>
+    <div class="mb-3">
+      <label for="notes" class="form-label">notes</label>
+      <input type="text" id="notes" name="notes" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+    </div>
+
+    <div class="col-md-6">
+      <h2>All Users</h2>
+      <div class="row">
+        <% users.forEach(user => { %>
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= user.name %></h5>
+                <p class="card-text">Total Debt: <%= user.totalDebt %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <h2>All chore</h2>
+      <div class="row">
+        <% chores.forEach(chore => { %>
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= chore.name %></h5>
+                <p class="card-text">Cost: <%= chore.cost %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%- include('footer') -%>
+
+

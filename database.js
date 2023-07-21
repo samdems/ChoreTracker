@@ -26,6 +26,10 @@ export const Log = sequelize.define('log', {
     type: DataTypes.FLOAT,
     defaultValue: 0.0,
   },
+  TotalAmount: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0.0,
+  },
   type:{
     type: DataTypes.STRING,
     allowNull: false,

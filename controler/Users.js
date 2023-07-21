@@ -17,7 +17,7 @@ app.post('/', async (req, res) => {
       const newUser = await User.create({ name, totalDebt });
       const info = `made user ${newUser.name}`
       const users = await User.findAll();
-      await Log.create({ name:newUser.name, amount:totalDebt,type:'added' });
+      await Log.create({ name:newUser.name, amount:totalDebt,type:'added',TotalAmount:totalDebt });
       res.render("users", { users,error:null,info });
     } catch (error) {
       console.error(error);
@@ -34,7 +34,7 @@ app.post('/:id', async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    await Log.create({ name:user.name, amount:user.totalDebt,type:'delete' });
+    await Log.create({ name:user.name, TotalAmount:user.totalDebt,type:'delete' });
     await user.destroy();
     const users = await User.findAll();
     res.render("users", { users,error:null,info:'User deleted successfully.' });

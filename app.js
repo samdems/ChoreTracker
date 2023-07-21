@@ -36,10 +36,10 @@ app.post('/add-debt', async (req, res) => {
     }
 
     user.totalDebt += chore.cost;
-    await Log.create({ name:user.name, amount: chore.cost,type:'add-debt',notes:chore.name });
+    await Log.create({ name:user.name, amount: chore.cost,type:'add-debt',notes:chore.name,TotalAmount:user.totalDebt });
     await user.save();
     const info= `added debt ${chore.cost} to ${user.name}`
-    res.render("users", { users,error:null,info });
+    res.render("addDebtForm", {users:await User.findAll(),chores,error:null,info });
   } catch (error) {
     const users = await User.findAll();
     const chores = await Chore.findAll();
@@ -48,14 +48,6 @@ app.post('/add-debt', async (req, res) => {
   }
 });
 
-app.get('/payment-form', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.render('paymentForm',{users,error:null,info:null}) 
-  } catch (error) {
-    res.render("paymentForm", { users:[],error:'Error fetching user data.',info:null });
-  }
-});
 
 app.post('/make-payment', async (req, res) => {
   const userId = parseInt(req.body.userId);
@@ -73,12 +65,14 @@ app.post('/make-payment', async (req, res) => {
     }
 
     user.totalDebt -= amount;
-    await Log.create({ name:user.name, amount:0-amount,type:'make-payment',notes:req.body.notes });
+    await Log.create({ name:user.name, amount:0-amount,type:'make-payment',notes:req.body.notes,TotalAmount:user.totalDebt });
     await user.save();
 
     const users = await User.findAll();
-    const info = `Paid ${amount} towards ${user.name}'s debt.` 
-    res.render("users", { users,error:null,info });
+    const info = `Paid ${amount} towards ${user.name}'s debt.`
+        const chores = await Chore.findAll();
+
+    res.render("addDebtForm", { users,chores,error:null,info });
   } catch (error) {
     const users = await User.findAll();
     return res.render("paymentForm", { users,error:'Error making payment.',info:null });
