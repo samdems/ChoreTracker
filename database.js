@@ -30,3 +30,10 @@ export const Chore = sequelize.define('Chore', {
   },
 });
 
+sequelize.sync()
+  .then(() => {
+    console.log('Tables have been created');
+  })
+  .catch((error) => {
+    console.error('Error creating tables:', error);
+  });

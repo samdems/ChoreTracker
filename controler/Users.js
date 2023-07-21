@@ -2,22 +2,24 @@ import { Router } from "express";
 import { User } from "../database.js";
 const app = Router();
 
-app.get('/', async (req, res) => {
-    try {
-      const users = await User.findAll();
-      res.status(200).json(users);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching users.' });
-    }
+app.get("/", async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.render("users", { users });
+  } catch (error) {
+    res.render("users", { users:[], error });
+  }
 });
 
 app.post('/', async (req, res) => {
     const { name, totalDebt } = req.body;
     try {
       const newUser = await User.create({ name, totalDebt });
-      res.status(201).json(newUser);
+      const users = await User.findAll();
+      res.render("users", { users });
     } catch (error) {
-      res.status(500).json({ message: 'Error adding user.' });
+      console.error(error);
+      res.render("users", { users:[], error });
     }
 });
 

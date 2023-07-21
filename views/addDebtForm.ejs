@@ -1,0 +1,28 @@
+<%- include('header') -%>
+
+<div class="container mt-4">
+  <h1>Add Debt</h1>
+  <form action="/add-debt" method="POST">
+    <div class="mb-3">
+      <label for="userId" class="form-label">User:</label>
+      <select id="userId" name="userId" class="form-select" required>
+        <% users.forEach(user => { %>
+          <option value="<%= user.id %>"><%= user.name %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="choreId" class="form-label">Chore:</label>
+      <select id="choreId" name="choreId" class="form-select" required>
+        <% chores.forEach(chore => { %>
+          <option value="<%= chore.id %>"><%= chore.name %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Debt</button>
+  </form>
+</div>
+
+<%- include('footer') -%>

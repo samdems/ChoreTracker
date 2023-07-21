@@ -1,0 +1,27 @@
+<%- include('header') -%>
+
+<div class="container mt-4">
+  <h2>All chores</h2>
+  <ul class="list-group">
+    <%chores.forEach(chore => { %>
+      <li class="list-group-item">
+        <%= chore.name %> - Cost: <%= chore.cost %>
+      </li>
+    <% }) %>
+  </ul>
+
+  <h2>Add New chore</h2>
+  <form action="/chores" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label for="cost" class="form-label">Cost:</label>
+      <input type="number" id="cost" name="cost" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add chore</button>
+  </form>
+</div>
+
+<%- include('footer') -%>

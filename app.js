@@ -1,18 +1,27 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import path from 'path';
 import {User,Chore} from './database.js'
 import userRoute from './controler/Users.js'
 import choreRoute from './controler/chores.js'
 
+
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.set('view engine', 'ejs');
 
 app.use('/users',userRoute)
 app.use('/chores',choreRoute)
-app.post('/add-debt/:userId/:choreId', async (req, res) => {
-  const userId = parseInt(req.params.userId);
-  const choreId = parseInt(req.params.choreId);
+
+app.get('/add-debt', async(req, res) => {
+
+  const users = await User.findAll();
+  const chores = await Chore.findAll();
+  res.render('addDebtForm',{users,chores}) 
+});
+
+app.post('/add-debt', async (req, res) => {
+  const userId = parseInt(req.body.userId);
+  const choreId = parseInt(req.body.choreId);
 
   try {
     const user = await User.findByPk(userId);
@@ -24,15 +33,26 @@ app.post('/add-debt/:userId/:choreId', async (req, res) => {
 
     user.totalDebt += chore.cost;
     await user.save();
-
-    res.status(200).json({ message: `Added ${chore.cost} to ${user.name}'s debt.` });
+    res.redirect('/users');
   } catch (error) {
     res.status(500).json({ message: 'Error adding debt.' });
   }
 });
 
-app.post('/make-payment/:userId', async (req, res) => {
+app.get('/payment-form', async (req, res) => {
   const userId = parseInt(req.params.userId);
+
+  try {
+    const users = await User.findAll();
+
+    res.render('paymentForm', { users });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user data.' });
+  }
+});
+
+app.post('/make-payment', async (req, res) => {
+  const userId = parseInt(req.body.userId);
   const { amount } = req.body;
 
   try {
@@ -53,7 +73,8 @@ app.post('/make-payment/:userId', async (req, res) => {
     user.totalDebt -= amount;
     await user.save();
 
-    res.status(200).json({ message: `Paid ${amount} towards ${user.name}'s debt.` });
+    // res.status(200).json({ message: `Paid ${amount} towards ${user.name}'s debt.` });
+    res.redirect('/users?m='+`Paid ${amount} towards ${user.name}'s debt.`);
   } catch (error) {
     res.status(500).json({ message: 'Error making payment.' });
   }
