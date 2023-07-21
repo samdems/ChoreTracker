@@ -12,7 +12,9 @@ app.set('view engine', 'ejs');
 app.use('/users',userRoute)
 app.use('/chores',choreRoute)
 app.use('/logs',logRoute)
-
+app.get('/',(req,res)=>{
+  res.redirect('add-debt');
+})
 app.get('/add-debt', async(req, res) => {
 
   const users = await User.findAll();
