@@ -6,7 +6,7 @@ import logRoute from './controler/logs.js'
 import indexRoute from './controler/index.js'
 
 const app = express();
-
+console.log('starting  up');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 
