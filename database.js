@@ -23,7 +23,7 @@ export const User = sequelize.define('User', {
     defaultValue: 0.0,
   } 
 });
-export const Log = sequelize.define('log', {
+export const Log = sequelize.define('Log', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -56,11 +56,3 @@ export const Chore = sequelize.define('Chore', {
     allowNull: false,
   },
 });
-
-sequelize.sync()
-  .then(() => {
-    console.log('Tables have been created');
-  })
-  .catch((error) => {
-    console.error('Error creating tables:', error);
-  });
