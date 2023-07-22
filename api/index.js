@@ -11,9 +11,11 @@ console.log('starting  up');
 // app.use('/chores',choreRoute)
 // app.use('/logs',logRoute)
 app.get('/api',(req,res)=>{
+    res.send('api')
+  })
+  app.get('/',(req,res)=>{
     res.send('home')
   })
-
 // app.use(express.static('public'));
 
 export default app
