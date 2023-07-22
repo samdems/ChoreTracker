@@ -19,6 +19,6 @@ app.get('/',(req,res)=>{
     res.send('home')
   })
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 export default app
