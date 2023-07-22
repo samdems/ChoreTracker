@@ -1,8 +1,8 @@
 import express from 'express';
-import indexRoute from 'indexRoute';
-import userRoute from 'userRoute';
-import choreRoute from 'choreRoute';
-import logRoute from 'logRoute';
+import indexRoute from '../controler/index';
+import userRoute from '../controler/user';
+import choreRoute from '../controler/chore';
+import logRoute from '../controler/log';
 
 const app = express();
 console.log('starting  up');
