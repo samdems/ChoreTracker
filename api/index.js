@@ -10,7 +10,7 @@ console.log('starting  up');
 // app.use('/users',userRoute)
 // app.use('/chores',choreRoute)
 // app.use('/logs',logRoute)
-app.get('/',(req,res)=>{
+app.get('/api',(req,res)=>{
     res.send('home')
   })
 
