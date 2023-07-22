@@ -10,7 +10,7 @@ app.get('/add-debt', async(req, res) => {
     res.render('addDebtForm',{users,chores,error:null,info:null}) 
 });
 app.get('/',(req,res)=>{
-  res.redirect('add-debt');
+  res.send('home')
 })
 
 app.post('/add-debt', async (req, res) => {
